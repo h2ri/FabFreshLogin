@@ -33,7 +33,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         else:
             return UserInfo.objects.filter(owner=self.request.user.id)
 
-
     def perform_create(self, serializer):
         print(self.request.user)
         serializer.save(owner=self.request.user)
@@ -235,11 +234,10 @@ class CheckAvailabilityApiView(APIView):
     "created_at": "2015-05-05 01:50",
     "callback_url": "callback/url"
     }
-
-
+        payload1 = request.data
         url = 'http://128.199.241.199/v1/orders/serviceability'
         headers = {'Authorization' : 'Bearer 4RaJAmtaOEfHJu1dkyWIUVGmckcTizGXyyxPFIgy' , 'Content-Type' : 'application/json'}
-        r = requests.post(url, json.dumps(payload), headers=headers)
+        r = requests.post(url, json.dumps(payload1), headers=headers)
 
         response = Response(r.json(),status=status.HTTP_200_OK)
         return response
