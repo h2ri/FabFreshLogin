@@ -20,7 +20,14 @@ from .permission import IsOwnerOrReadOnly
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    #http_method_names = ['get', 'put', 'head' ,'patch']
+    permission_classes = [permissions.IsAuthenticated,TokenHasReadWriteScope]
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(id=self.request.user.id)
 
 class UserInfoViewSet(viewsets.ModelViewSet):
     serializer_class = UserInfoSerializer

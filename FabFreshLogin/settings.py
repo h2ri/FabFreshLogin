@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'oauth2_provider',
     'users',
+    'rest_framework_swagger',
 )
 
 MIDDLEWARE_CLASSES = (
