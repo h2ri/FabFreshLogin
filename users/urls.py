@@ -8,10 +8,11 @@ router.register(r'^userinfo',views.UserInfoViewSet,base_name='userinfo')
 
 urlpatterns = patterns(
     '',
-    url(r'^', include(router.urls)),
+    url(r'^',
+        include(router.urls)),
     url(r'^register-by-token/(?P<backend>[^/]+)/$',
         views.register_by_access_token),
-    url(r'^$',views.index, name='index'),
-    url(r'^availability/$', views.CheckAvailabilityApiView.as_view(), name='my_rest_view'),
+    url(r'^availability/$',
+        views.CheckAvailabilityApiView.as_view(), name='my_rest_view'),
 
 )
