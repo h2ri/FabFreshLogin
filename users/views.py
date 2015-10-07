@@ -2,30 +2,41 @@ from django.http import HttpResponse
 from django.contrib.auth import login
 from social.apps.django_app.utils import psa
 from .tools import get_access_token
-from .models import UserDetails
-from .serializers import UserDetailsSerializer
 import json
 import requests
 
+from rest_framework import permissions
+from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, TokenHasScope
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-# When we send a third party access token to that view
-# as a GET request with access_token parameter,
-# python social auth communicate with
-# the third party and request the user info to register or
-# sign in the user. Magic. Yeah.
+from django.contrib.auth.models import User
+from .serializers import UserSerializer,UserInfoSerializer
+from .models import UserInfo
+from rest_framework import viewsets
+from .permission import IsOwnerOrReadOnly
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
-class profileApiView(APIView):
-    def post(self,request, *args, **kw):
-        serializer = UserDetailsSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserInfoViewSet(viewsets.ModelViewSet):
+    serializer_class = UserInfoSerializer
+    #queryset = UserInfo.objects.all()
+    permission_classes = [permissions.IsAuthenticated,TokenHasReadWriteScope]
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return UserInfo.objects.all()
+        else:
+            return UserInfo.objects.filter(owner=self.request.user.id)
+
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        serializer.save(owner=self.request.user)
 
 
 def index(request):
@@ -34,21 +45,19 @@ def index(request):
 
 @psa('social:complete')
 def register_by_access_token(request, backend):
- 
+
     token = request.GET.get('access_token')
     number = request.GET.get('number')
     email = request.GET.get('email')
 
+
     # here comes the magic
     user = request.backend.do_auth(token)
-    UserProfile.objects.all()
-
     if user:
         login(request, user)
         # that function will return our own
         # OAuth2 token as JSON
         # Normally, we wouldn't necessarily return a new token, but you get the idea
-
         return get_access_token(user)
     else:
         # If there was an error... you decide what you do here

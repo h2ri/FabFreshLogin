@@ -1,14 +1,17 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url, patterns, include
 from . import views
+from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'info',views.UserViewSet)
+router.register(r'^userinfo',views.UserInfoViewSet,base_name='userinfo')
 
 urlpatterns = patterns(
     '',
-    # the view to register our user with a third party token
-    # the backend is the python social auth backend e.g. facebook
+    url(r'^', include(router.urls)),
     url(r'^register-by-token/(?P<backend>[^/]+)/$',
         views.register_by_access_token),
     url(r'^$',views.index, name='index'),
     url(r'^availability/$', views.CheckAvailabilityApiView.as_view(), name='my_rest_view'),
-    url(r'^profile/$',views.profileApiView.as_view(), name='profileView'),
+
 )
