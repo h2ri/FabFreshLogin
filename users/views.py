@@ -53,19 +53,32 @@ def register_by_access_token(request, backend):
     number = request.GET.get('number')
     email = request.GET.get('email')
 
-    
-    user = request.backend.do_auth(token)
+    try:
+        user = request.backend.do_auth(token)
+        if user:
+            login(request, user)
+            if email:
+                u = User.objects.get(id = user.id)
+                u.email = email
+                u.save()
+            return get_access_token(user)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return HttpResponse("Error",status=status.HTTP_404_NOT_FOUND)
 
-    if user:
-        login(request, user)
-        if email:
-            u = User.objects.filter(id=user.id)
-            for object in u:
-                object.email = email
-                object.save()
-        return get_access_token(user)
-    else:
-        return HttpResponse("error")
+
+class CheckAvailabilityApiView(APIView):
+
+    permission_classes = [permissions.AllowAny]
+
+    def post(self,request, *args, **kw):
+        payload1 = request.data
+        url = 'http://128.199.241.199/v1/orders/serviceability'
+        headers = {'Authorization' : 'Bearer 4RaJAmtaOEfHJu1dkyWIUVGmckcTizGXyyxPFIgy' , 'Content-Type' : 'application/json'}
+        r = requests.post(url, json.dumps(payload1), headers=headers)
+        response = Response(r.json(),status=status.HTTP_200_OK)
+        return response
 
 class PlaceOrderShipment(APIView):
     def post(self,request, *args, **kw):
@@ -156,17 +169,4 @@ class PlaceOrderShipment(APIView):
         response = Response(r.json(),status=status.HTTP_200_OK)
         return response
 
-
-
-class CheckAvailabilityApiView(APIView):
-
-    permission_classes = [permissions.AllowAny]
-
-    def post(self,request, *args, **kw):
-        payload1 = request.data
-        url = 'http://128.199.241.199/v1/orders/serviceability'
-        headers = {'Authorization' : 'Bearer 4RaJAmtaOEfHJu1dkyWIUVGmckcTizGXyyxPFIgy' , 'Content-Type' : 'application/json'}
-        r = requests.post(url, json.dumps(payload1), headers=headers)
-        response = Response(r.json(),status=status.HTTP_200_OK)
-        return response
 
