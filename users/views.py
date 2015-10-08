@@ -45,7 +45,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-
 @psa('social:complete')
 def register_by_access_token(request, backend):
 
@@ -65,7 +64,7 @@ def register_by_access_token(request, backend):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        return HttpResponse("Error",status=status.HTTP_404_NOT_FOUND)
+        return HttpResponse("Error",status=status.H)
 
 
 class CheckAvailabilityApiView(APIView):
@@ -73,100 +72,9 @@ class CheckAvailabilityApiView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self,request, *args, **kw):
-        payload1 = request.data
-        url = 'http://128.199.241.199/v1/orders/serviceability'
-        headers = {'Authorization' : 'Bearer 4RaJAmtaOEfHJu1dkyWIUVGmckcTizGXyyxPFIgy' , 'Content-Type' : 'application/json'}
-        r = requests.post(url, json.dumps(payload1), headers=headers)
-        response = Response(r.json(),status=status.HTTP_200_OK)
-        return response
-
-class PlaceOrderShipment(APIView):
-    def post(self,request, *args, **kw):
-        payload = {
-        "pickup": {
-            "user": {
-            "name": "Samsung store",
-            "phone_no": "08056190907",
-            "email": "samsung@gmail.com",
-            "type": "merchant",
-            "external_id": "BLR-NAT-123",
-            "full_address": {
-                "address": "Shop no 51,5th block",
-                "locality": {
-                    "name": "Koramangala"
-                },
-                "sub_locality": {
-                    "name": "5th block"
-                },
-                "city": {
-                    "name": "Bangalore"
-                },
-                "geo": {
-                    "latitude": "12.935322",
-                    "longitude": "77.618754"
-                }
-            }
-        }
-    },
-    "drop": {
-        "user": {
-            "name": "Joe",
-            "phone_no": "9656190907",
-            "email": "joe@gmail.com",
-            "external_id": "MND-756",
-            "type": "customer",
-            "full_address": {
-                "address": "apartments, 6th block",
-                "locality": {
-                    "name": "Koramangala"
-                },
-                "sub_locality": {
-                    "name": "6th block"
-                },
-                "city": {
-                    "name": "Bangalore"
-                },
-                "geo": {
-                    "latitude": "12.943834",
-                    "longitude": "77.623928"
-                }
-            }
-        }
-    },
-    "order_details": {
-        "order_id": "last2091020",
-        "order_value": "255.0",
-        "amount_to_be_collected": "234.45",
-        "order_type": {
-            "name": "Cash On Delivery"
-        },
-        "order_items": [
-            {
-                "quantity": 1,
-                "price": 120,
-                "item": {
-                    "name": "Samsung screen Guard"
-                }
-            },
-            {
-                "quantity": 1,
-                "price": 535,
-                "item": {
-                    "name": "Samsung charger"
-                }
-            }
-        ]
-    },
-    "created_at": "2015-05-05 01:50",
-    "callback_url": "callback/url"
-    }
-
-
+        payload = request.data
         url = 'http://128.199.241.199/v1/orders/serviceability'
         headers = {'Authorization' : 'Bearer 4RaJAmtaOEfHJu1dkyWIUVGmckcTizGXyyxPFIgy' , 'Content-Type' : 'application/json'}
         r = requests.post(url, json.dumps(payload), headers=headers)
-
         response = Response(r.json(),status=status.HTTP_200_OK)
         return response
-
-

@@ -4,13 +4,7 @@ from django.http import JsonResponse
 from oauth2_provider.models import AccessToken, Application, RefreshToken
 from django.utils.timezone import now, timedelta
 
-
 def get_token_json(access_token):
-    """
-    Takes an AccessToken instance as an argument
-    and returns a JsonResponse instance from that
-    AccessToken
-    """
     token = {
         'access_token': access_token.token,
         'expires_in': oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS,
@@ -22,11 +16,6 @@ def get_token_json(access_token):
 
 
 def get_access_token(user):
-    """
-    Takes a user instance and return an access_token as a JsonResponse
-    instance.
-    """
-
     app = Application.objects.get(name="FabFresh")
 
     try:
