@@ -122,7 +122,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '8cf52470a9df4b75bb36729377872dfc'
 
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
-
+'''
 #For Heroku Purpose only
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
@@ -143,3 +143,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+'''

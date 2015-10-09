@@ -11,4 +11,5 @@ urlpatterns = patterns(
         include(router.urls)),
     url(r'^placeorder/$',
         views.PlaceOrderShipment.as_view(), name='place_order'),
+    url(r'^track/$',views.Track.as_view(),name='track')
 )
