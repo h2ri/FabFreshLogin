@@ -6,5 +6,5 @@ class ordersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = orders
-        fields = ('id','amount','status','created_at_time','delivered_at_time','owner')
+        fields = ('id','amount','status','created_at_time','owner','weight','quantity')
 

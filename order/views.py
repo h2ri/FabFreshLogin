@@ -6,11 +6,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
 import json
+from django.views.decorators.csrf import csrf_exempt
+
 
 class ordersViewSet(viewsets.ModelViewSet):
     serializer_class = ordersSerializer
     queryset = orders.objects.all()
-    permission_classes = [permissions.IsAuthenticated,TokenHasReadWriteScope]
+    mounpermission_classes = [permissions.IsAuthenticated,TokenHasReadWriteScope]
+    #permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         if self.request.user.is_superuser:

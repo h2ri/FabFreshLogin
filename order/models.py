@@ -3,9 +3,10 @@ from django.db import models
 # Create your models here.
 STATUS = (
     ('1', 'created'),
-    ('2', 'processed'),
-    ('3', 'delivered'),
-    ('4', 'cancelled'),
+    ('2', 'wash'),
+    ('3', 'dry'),
+    ('4', 'iron'),
+    ('5','complete')
 )
 
 
@@ -14,6 +15,7 @@ class orders(models.Model):
     id = models.AutoField(primary_key=True)
     amount = models.FloatField(blank=True, null=True)
     quantity = models.IntegerField(blank=True,null=True)
+    weight = models.FloatField(blank=True,null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='1')
     created_at_time = models.DateTimeField(auto_now_add=True, blank=True)
     #roadrunner Details for order
