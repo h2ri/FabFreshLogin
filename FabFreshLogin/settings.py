@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'FabFreshLogin.wsgi.application'
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-'''
+
 
 DATABASES = {
     'default': {
@@ -100,6 +100,17 @@ DATABASES = {
         'PASSWORD': 'hari',
         'HOST': 'localhost',
         'PORT': '5432',
+    }
+}
+'''
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME' : 'fabfresh',
+        'USER' : 'fabfresh',
+        'PASSWORD' : 'fabfresh',
+        'HOST' : 'fabfresh.cpyeqpvxvn3v.us-west-2.rds.amazonaws.com',
+        'POST' : '5432'
     }
 }
 
