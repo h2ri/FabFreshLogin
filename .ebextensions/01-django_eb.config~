@@ -3,7 +3,7 @@ option_settings:
     DJANGO_SETTINGS_MODULE: "FabFreshLogin.settings"
     PYTHONPATH: "/opt/python/current/app/FabFreshLogin:$PYTHONPATH"
   "aws:elasticbeanstalk:container:python":
-    WSGIPath: "FabFreshLogin/wsgi.py"
+    WSGIPath: "FabFreshLogin/FabFreshLogin/wsgi.py"
 
 packages:
   yum:
