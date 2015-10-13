@@ -109,11 +109,10 @@ DATABASES = {
         'NAME' : 'fabfresh',
         'USER' : 'fabfresh',
         'PASSWORD' : 'fabfresh',
-        'HOST' : 'fabfresh.cpyeqpvxvn3v.us-west-2.rds.amazonaws.com',
+        'HOST' : 'aa17tjxyytgul9w.czdkcaulp7hj.ap-southeast-1.rds.amazonaws.com',
         'POST' : '5432'
     }
 }
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
