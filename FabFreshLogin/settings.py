@@ -84,7 +84,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'FabFreshLogin.wsgi.application'
 
-'''ATABASES = {
+'''
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -103,16 +104,30 @@ DATABASES = {
     }
 }
 '''
-DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'fabfresh',
-        'USER' : 'fabfresh',
-        'PASSWORD' : 'fabfresh',
-        'HOST' : 'aa17tjxyytgul9w.czdkcaulp7hj.ap-southeast-1.rds.amazonaws.com',
-        'POST' : '5432'
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default' : {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME' : 'fabfresh',
+            'USER' : 'fabfresh',
+            'PASSWORD' : 'fabfresh',
+            'HOST' : 'aa17tjxyytgul9w.czdkcaulp7hj.ap-southeast-1.rds.amazonaws.com',
+            'POST' : '5432'
+        }
+    }
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

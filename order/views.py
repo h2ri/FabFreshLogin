@@ -33,6 +33,7 @@ class PlaceOrderShipment(APIView):
         payload = request.data
         #payload['order_details']['order_id']
         #createOrder(payload['order_details'])
+
         order = orders(owner=self.request.user)
         order.save()
 
